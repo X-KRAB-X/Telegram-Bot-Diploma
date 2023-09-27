@@ -1,10 +1,10 @@
 """ Файл, содержащий функционал, пока что будущих, команд. """
 
 import telebot
-from config import BOT_TOKEN
+from config_data.config import BOT_TOKEN
 from states import LoyStates, state_storage
-from api import *
-from history import save_req
+from site_api.api import *
+from datadase.history import save_req
 
 my_bot = telebot.TeleBot(BOT_TOKEN, state_storage=state_storage)
 curr_state = 0
