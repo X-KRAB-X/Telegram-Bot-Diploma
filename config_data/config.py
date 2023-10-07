@@ -8,3 +8,11 @@ else:
     load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+DEFAULT_COMMANDS = (
+    ('start', 'Запуск'),
+    ('low', 'Минимальная цена'),
+    ('high', 'Наибольшая цена'),
+    ('custom', 'Цена в указаных пределах'),
+    ('history', 'История запросов'),
+    ('help', 'Справка')
+)
