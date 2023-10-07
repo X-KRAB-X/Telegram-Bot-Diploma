@@ -6,5 +6,5 @@ import json
 
 def send_request(req):
     answer = requests.get(f'https://fakestoreapi.com/products/{req}')
-    data = json.loads(answer.text)
+    data = answer.json()
     return data
