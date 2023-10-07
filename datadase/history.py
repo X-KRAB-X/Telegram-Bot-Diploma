@@ -1,9 +1,11 @@
 """Файл для сохранения команды в базе данных"""
 
-
+import os
 from peewee import SqliteDatabase, Model, CharField
 
-db = SqliteDatabase('history.db')
+
+path = os.path.abspath(os.path.join('datadase', 'history.db'))  # работает только из файла main, иначе путь ломается.
+db = SqliteDatabase(path)
 
 
 class Requests(Model):
