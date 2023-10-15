@@ -1,3 +1,6 @@
+""" Файл, служащий для инициализации бота. """
+
+
 from telebot import TeleBot
 from config_data.config import BOT_TOKEN
 from states.states import state_storage
