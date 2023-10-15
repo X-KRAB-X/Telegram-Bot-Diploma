@@ -1,3 +1,6 @@
+""" Файл, содержащий команду /low. """
+
+
 from loader import bot
 from states.states import LoyStates
 from site_api.api import send_request
