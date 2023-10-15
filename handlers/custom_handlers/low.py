@@ -7,7 +7,7 @@ from datadase.history import save_req
 @bot.message_handler(commands=['low'])
 def low(message):
     """
-    Функция /low
+    Начальная функция /low
     """
 
     bot.send_message(message.chat.id,
