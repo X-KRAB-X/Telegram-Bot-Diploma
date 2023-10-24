@@ -21,13 +21,18 @@ def low(message):
     bot.set_state(message.from_user.id, LoyStates.info, message.chat.id)
 
 
-@bot.message_handler(state=LoyStates.info)
+@bot.message_handler(state=LoyStates.info, func=lambda message: not message.text.startswith('/'))
 def category(message):
     """
     Функция для выбора категории поиска.
     Создает в хранилище вариант запроса для сайта.
     Затем переключает на состояние, соответсвующее введенной команде.
     """
+
+    # if message.text.startswith('/'):
+    #     bot.delete_state(message.from_user.id, message.chat.id)
+    #     bot.re
+    #     return
 
     if message.text.lower() == 'электроника':
 
@@ -58,7 +63,7 @@ def category(message):
     bot.set_state(message.from_user.id, LoyStates.low, message.chat.id)
 
 
-@bot.message_handler(state=LoyStates.low)
+@bot.message_handler(state=LoyStates.low, func=lambda message: not message.text.startswith('/'))
 def low_output(message):
     """
     Основная функция /low
