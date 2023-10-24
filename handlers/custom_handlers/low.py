@@ -29,11 +29,6 @@ def category(message):
     Затем переключает на состояние, соответсвующее введенной команде.
     """
 
-    # if message.text.startswith('/'):
-    #     bot.delete_state(message.from_user.id, message.chat.id)
-    #     bot.re
-    #     return
-
     if message.text.lower() == 'электроника':
 
         with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
