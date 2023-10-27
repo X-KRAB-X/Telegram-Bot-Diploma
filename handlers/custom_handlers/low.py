@@ -18,6 +18,9 @@ def low(message):
                         'Мужская одежда/Женская одежда/Электроника/Ювелирные украшения/Все'
                         )
 
+    with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
+        data['curr_comm'] = 'low'
+
     bot.set_state(message.from_user.id, LoyStates.info, message.chat.id)
 
 
@@ -55,7 +58,12 @@ def category(message):
             data['req'] = ''
 
     bot.send_message(message.from_user.id, 'Введите кол-во товара для вывода')
-    bot.set_state(message.from_user.id, LoyStates.low, message.chat.id)
+
+    with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
+        if data['curr_comm'] == 'low':
+            bot.set_state(message.from_user.id, LoyStates.low, message.chat.id)
+        elif data['curr_comm'] == 'high':
+            bot.set_state(message.from_user.id, LoyStates.high, message.chat.id)
 
 
 @bot.message_handler(state=LoyStates.low, func=lambda message: not message.text.startswith('/'))
