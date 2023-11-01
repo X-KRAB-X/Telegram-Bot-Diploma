@@ -1,6 +1,7 @@
 """Команда для показа всех команд бота."""
 
 from loader import bot
+from datadase.history_saving import save_req
 
 
 @bot.message_handler(commands=['help'])
@@ -11,3 +12,4 @@ def help_bot(message):
                                       '/custom - Показать товары с ценой в указаных пределах.\n'
                                       '/history - Показать историю 10 последних запросов.\n'
                                       '/help - Показать все команды(была введена только что :>)')
+    save_req('help')
