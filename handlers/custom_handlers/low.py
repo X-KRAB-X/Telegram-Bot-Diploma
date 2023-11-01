@@ -4,7 +4,7 @@
 from loader import bot
 from states.states import LoyStates
 from site_api.api import send_request
-from datadase.history import save_req
+from datadase.history_saving import save_req
 
 
 @bot.message_handler(commands=['low'])
