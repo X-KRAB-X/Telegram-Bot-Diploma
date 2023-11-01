@@ -18,13 +18,10 @@ def high(message):
                         'Мужская одежда/Женская одежда/Электроника/Ювелирные украшения/Все'
                         )
 
-    with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
-        data['curr_comm'] = 'high'
-
-    bot.set_state(message.from_user.id, LoyStates.info, message.chat.id)
+    bot.set_state(message.from_user.id, LoyStates.high_info, message.chat.id)
 
 
-@bot.message_handler(state=LoyStates.info, func=lambda message: not message.text.startswith('/'))
+@bot.message_handler(state=LoyStates.high_info, func=lambda message: not message.text.startswith('/'))
 def category(message):
     """
     Функция для выбора категории поиска.
@@ -59,15 +56,11 @@ def category(message):
 
     bot.send_message(message.from_user.id, 'Введите кол-во товара для вывода')
 
-    with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
-        if data['curr_comm'] == 'low':
-            bot.set_state(message.from_user.id, LoyStates.low, message.chat.id)
-        elif data['curr_comm'] == 'high':
-            bot.set_state(message.from_user.id, LoyStates.high, message.chat.id)
+    bot.set_state(message.from_user.id, LoyStates.high_output, message.chat.id)
 
 
-@bot.message_handler(state=LoyStates.high, func=lambda message: not message.text.startswith('/'))
-def low_output(message):
+@bot.message_handler(state=LoyStates.high_output, func=lambda message: not message.text.startswith('/'))
+def high_output(message):
     """
     Основная функция /high
     Использует функцию для получения списка товаров от сайта.
@@ -78,7 +71,7 @@ def low_output(message):
     with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
         products = send_request(data['req'])
         products = sorted(products, key=lambda dct: dct['price'], reverse=True)
-        # products_sorted = sorted(products, key=lambda dct: dct['price'], reverse=True)
+
         if int(message.text) > len(products):
             bot.send_message(message.from_user.id,
                                 f'Введенное кол-во товаров превышает их кол-во на складе ({len(products)}), '
