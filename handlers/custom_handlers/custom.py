@@ -9,12 +9,22 @@ from datadase.history_saving import save_req
 
 @bot.message_handler(commands=['custom'])
 def custom(message):
+    """
+    Начальная функция /custom.
+    Запрашивает у пользователя начальную цену.
+    """
+
     bot.send_message(message.from_user.id, 'Введите начальную цену')
     bot.set_state(message.from_user.id, LoyStates.custom_limits_first, message.chat.id)
 
 
 @bot.message_handler(state=LoyStates.custom_limits_first, func=lambda message: not message.text.startswith('/'))
 def custom_limits_first(message):
+    """
+    Функция, получающая начальную цену.
+    Затем у пользователя запрашивается конечная цена.
+    """
+
     if not message.text.isdigit():
         bot.send_message(message.from_user.id, 'Это не похоже на цифру. Введите еще раз')
         return
@@ -29,6 +39,12 @@ def custom_limits_first(message):
 
 @bot.message_handler(state=LoyStates.custom_limits_second, func=lambda message: not message.text.startswith('/'))
 def custom_limits_second(message):
+    """
+    Функция, получающая конечную цену.
+    Если начальная цена больше конечной, они меняются местами.
+    Затем запришивает у пользовеля категорию для поиска.
+    """
+
     if not message.text.isdigit():
         bot.send_message(message.from_user.id, 'Это не похоже на цифру. Введите еще раз')
         return
@@ -87,6 +103,15 @@ def custom_category(message):
 
 @bot.message_handler(state=LoyStates.custom_output, func=lambda message: not message.text.startswith('/'))
 def custom_output(message):
+    """
+    Конечная функция.
+    Посылает запрос на сайт и получает список товаров.
+    Затем, исходя из диапазона цены, фильтрует список и выводит оставшиеся товары (если они есть) на экран.
+    Если их нет, сообщает об этом пользователю.
+    Также сравнивает введное кол-во товаров и их кол-во в списке.
+    В конце сохраняет запрос в базе данных.
+    """
+
     with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
         products = send_request(data['req'])
         products = list(filter(lambda dct: data['start'] < dct['price'] < data['end'], products))
@@ -95,7 +120,7 @@ def custom_output(message):
             bot.send_message(message.from_user.id, 'Товары в этом диапазоне цены отсутствуют.')
         elif int(message.text) > len(products):
             bot.send_message(message.from_user.id,
-                                f'Введенное кол-во товаров превышает их кол-во на складе ({len(products)}), '
+                                f'Введенное кол-во товаров больше, чем их кол-во в диапазоне цены({len(products)}), '
                                 f'поэтому вывожу все что есть:')
 
         for index in range(int(message.text) if int(message.text) <= len(products) else len(products)):

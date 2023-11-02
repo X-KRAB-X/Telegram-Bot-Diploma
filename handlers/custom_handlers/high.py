@@ -11,6 +11,7 @@ from datadase.history_saving import save_req
 def high(message):
     """
     Начальная функция /high
+    Запрашивает у пользователя категорию для поиска
     """
 
     bot.send_message(message.chat.id,
@@ -26,11 +27,10 @@ def category(message):
     """
     Функция для выбора категории поиска.
     Создает в хранилище вариант запроса для сайта.
-    Затем переключает на состояние, соответсвующее введенной команде.
+    Затем запрашивает у пользователя кол-во товаров, которое необходимо вывести.
     """
 
     if message.text.lower() == 'электроника':
-
         with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
             data['req'] = 'category/electronics'
 
