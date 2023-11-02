@@ -9,6 +9,10 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 def category_buttons():
+    """
+    Функция, создающая кнопки.
+    """
+
     markup = ReplyKeyboardMarkup()
     markup.row_width = 2
     markup.add(
@@ -23,6 +27,11 @@ def category_buttons():
 
 @bot.callback_query_handler(func=lambda call: True)
 def category_callback(call):
+    """
+    Функция колбэка.
+    При нажатии на кнопку, вводит за пользователя соответствующую категорию.
+    """
+
     if call.data == 'мужская одежда':
         bot.answer_callback_query(call.id, 'Мужская одежда')
     elif call.data == 'женская одежда':
