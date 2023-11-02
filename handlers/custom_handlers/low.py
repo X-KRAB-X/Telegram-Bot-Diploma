@@ -5,6 +5,34 @@ from loader import bot
 from states.states import LoyStates
 from site_api.api import send_request
 from datadase.history_saving import save_req
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
+
+def category_buttons():
+    markup = ReplyKeyboardMarkup()
+    markup.row_width = 2
+    markup.add(
+        KeyboardButton('Мужская одежда'),
+        KeyboardButton('Женская одежда'),
+        KeyboardButton('Электроника'),
+        KeyboardButton('Ювелирные украшения'),
+        KeyboardButton('Все')
+    )
+    return markup
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def category_callback(call):
+    if call.data == 'мужская одежда':
+        bot.answer_callback_query(call.id, 'Мужская одежда')
+    elif call.data == 'женская одежда':
+        bot.answer_callback_query(call.id, 'Женская одежда')
+    elif call.data == 'электроника':
+        bot.answer_callback_query(call.id, 'Электроника')
+    elif call.data == 'ювелирные украшения':
+        bot.answer_callback_query(call.id, 'Ювелирные украшения')
+    elif call.data == 'все':
+        bot.answer_callback_query(call.id, 'Все')
 
 
 @bot.message_handler(commands=['low'])
@@ -16,7 +44,8 @@ def low(message):
 
     bot.send_message(message.chat.id,
                         'В какой категории ищем?\n'
-                        'Мужская одежда/Женская одежда/Электроника/Ювелирные украшения/Все'
+                        '(Выберите кнопку внизу)',
+                        reply_markup=category_buttons()
                         )
 
     bot.set_state(message.from_user.id, LoyStates.low_info, message.chat.id)
