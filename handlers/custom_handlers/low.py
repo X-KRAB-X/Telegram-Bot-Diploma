@@ -121,6 +121,6 @@ def low_output(message):
                                 f'Имя товара: {products[index]["title"]}\nЦена: {products[index]["price"]}'
                                 )
 
-    save_req('low', message.from_user.id)
+    save_req('low', message.from_user.id, 'Были получены самые дешевые товары.')
 
     bot.delete_state(message.from_user.id, message.chat.id)

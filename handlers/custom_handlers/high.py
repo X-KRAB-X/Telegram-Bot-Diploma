@@ -120,6 +120,6 @@ def high_output(message):
                                 f'Имя товара: {products[index]["title"]}\nЦена: {products[index]["price"]}'
                                 )
 
-    save_req('high', message.from_user.id)
+    save_req('high', message.from_user.id, 'Были получены самые дорогие товары.')
 
     bot.delete_state(message.from_user.id, message.chat.id)

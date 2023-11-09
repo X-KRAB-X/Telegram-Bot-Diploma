@@ -13,17 +13,17 @@ def history_watch(message):
     В случае пустой базы, сообщает пользователю об этом.
     """
 
-    requests_list = last_ten()
+    requests_list = last_ten(message.from_user.id)
     if len(requests_list) == 0:
         bot.send_message(message.from_user.id, 'История запросов пуста.')
-        save_req('history', message.from_user.id)
+        save_req('history', message.from_user.id, 'Была получена история ваших запросов.')
         return
 
-    bot.send_message(message.from_user.id, 'Вот последние запросы:')
+    bot.send_message(message.from_user.id, 'Вот ваши последние запросы:')
 
     count = 0
-    for comm in requests_list:
+    for string in requests_list:
         count += 1
-        bot.send_message(message.from_user.id, f'{count} - {comm[1]}')
+        bot.send_message(message.from_user.id, f'{count}) /{string.command} - {string.info}')
 
-    save_req('history', message.from_user.id)
+    save_req('history', message.from_user.id, 'Была получена история ваших запросов.')
