@@ -3,7 +3,6 @@
 
 import os
 from peewee import SqliteDatabase, Model, CharField
-import sqlite3
 
 
 path = os.path.abspath(os.path.join('datadase', 'history.db'))  # работает только из файла main, иначе путь ломается.
@@ -17,6 +16,8 @@ class Requests(Model):
     """
 
     command = CharField()
+    user_id = CharField()
+    info = CharField()
 
     class Meta:
         database = db
@@ -25,21 +26,19 @@ class Requests(Model):
 db.create_tables([Requests])
 
 
-def save_req(command):
+def save_req(command, user_id, info):
     """
     Функция для создания записи в базе данных.
     """
 
-    req = Requests(command=command)
+    req = Requests(command=command, user_id=user_id, info=info)
     req.save()
 
 
-def last_ten():
+def last_ten(user_id):
     """
-    Функция для получения списка, состоящего из 10 последних записей.
+    Функция для получения 10 последних запросов конкретного пользователя.
     """
 
-    with sqlite3.connect(path) as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM (SELECT * FROM requests ORDER BY id DESC LIMIT 10) t ORDER BY id')
-        return cursor.fetchall()
+    commands = Requests.select().where(Requests.user_id == user_id).execute()
+    return commands
