@@ -12,7 +12,7 @@ db = SqliteDatabase(path)
 class Requests(Model):
     """
     Модель для базы данных.
-    Хранит в себе id и саму команду.
+    Хранит в себе id, команду, id пользователя и инофрмацию об введной команде.
     """
 
     command = CharField()
