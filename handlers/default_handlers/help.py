@@ -16,4 +16,4 @@ def help_bot(message):
                                       '/custom - Показать товары с ценой в указаных пределах.\n'
                                       '/history - Показать историю 10 последних запросов.\n'
                                       '/help - Показать все команды(была введена только что :>)')
-    save_req('help')
+    save_req('help', message.from_user.id)

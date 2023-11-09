@@ -167,6 +167,6 @@ def custom_output(message):
             bot.send_message(message.from_user.id,
                                 f'Имя товара: {products[index]["title"]}\nЦена: {products[index]["price"]}')
 
-    save_req('custom')
+    save_req('custom', message.from_user.id)
 
     bot.delete_state(message.from_user.id, message.chat.id)

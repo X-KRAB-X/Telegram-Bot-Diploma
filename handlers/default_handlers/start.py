@@ -14,4 +14,4 @@ def start_bot(message):
     bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}!\n'
                                       f'Меня зовут Лой. Я привязанный к складу бот.\n'
                                       f'Чтобы узнать мои команды, напишите /help')
-    save_req('start')
+    save_req('start', message.from_user.id)

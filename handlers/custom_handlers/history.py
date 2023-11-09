@@ -16,7 +16,7 @@ def history_watch(message):
     requests_list = last_ten()
     if len(requests_list) == 0:
         bot.send_message(message.from_user.id, 'История запросов пуста.')
-        save_req('history')
+        save_req('history', message.from_user.id)
         return
 
     bot.send_message(message.from_user.id, 'Вот последние запросы:')
@@ -26,4 +26,4 @@ def history_watch(message):
         count += 1
         bot.send_message(message.from_user.id, f'{count} - {comm[1]}')
 
-    save_req('history')
+    save_req('history', message.from_user.id)
